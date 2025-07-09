@@ -43,7 +43,8 @@ const App: React.FC = () => {
     try {
         const stream = streamChat(text);
         for await (const chunk of stream) {
-          fullResponse += chunk.text;
+          const sanitizedChunk = chunk.text.replace(/\*/g, '');
+          fullResponse += sanitizedChunk;
           setMessages(prev =>
             prev.map(m => m.id === aiMessageId ? { ...m, text: fullResponse } : m)
           );
@@ -84,7 +85,8 @@ const App: React.FC = () => {
         try {
             const stream = streamChat('Hola');
             for await (const chunk of stream) {
-                fullResponse += chunk.text;
+                const sanitizedChunk = chunk.text.replace(/\*/g, '');
+                fullResponse += sanitizedChunk;
                 setMessages(prev =>
                     prev.map(m => m.id === aiMessageId ? { ...m, text: fullResponse } : m)
                 );
